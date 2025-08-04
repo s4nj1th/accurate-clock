@@ -21,21 +21,12 @@ function pickRandom(arr: string[]): string {
 
 function intToText(num: number): string {
   const text = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
-    "eleven",
-    "twelve",
+    "twelve", "one", "two", "three", "four", "five",
+    "six", "seven", "eight", "nine", "ten", "eleven",
   ];
-  return text[(num % 12) - 1] || "zero";
+  return text[num % 12];
 }
+
 
 function getApproximateTimePhrase() {
   const now = new Date();
