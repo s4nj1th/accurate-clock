@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <>
-      <div className="bg-[#101010] text-white min-h-screen flex flex-col items-center justify-center">
+      <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center">
         <p className="text-4xl">{getApproximateTimePhrase()}</p>
         <p>{describeTime()}</p>
       </div>
@@ -64,9 +64,9 @@ function getApproximateTimePhrase() {
 
   const phrase = pickRandom(timePhrases[phraseIndex]);
   return (
-    <>
+    <div className="font-thin">
       {phrase} <span className="underline font-black">{targetHour}</span>
-    </>
+    </div>
   );
 }
 
