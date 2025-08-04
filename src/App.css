@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --color-background: #101010;
+    --color-text: white;
+    --font-family-base: 'Atkinson Hyperlegible', sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-[#101010] text-white;
+        font-family: 'Atkinson Hyperlegible', sans-serif;
+    }
+}
