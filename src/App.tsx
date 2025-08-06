@@ -25,7 +25,7 @@ function App() {
     <>
       <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center px-10">
         <p className="-mt-[10vh] text-3xl md:text-4xl mb-4 animate-fade-in">
-          It's {getApproximateTimePhrase()}.
+          {getApproximateTimePhrase()}
         </p>
         <p className="text-xs md:text-sm animate-fade-in">{describeTime()}</p>
       </div>
@@ -86,7 +86,7 @@ function getApproximateTimePhrase() {
   const phrase = pickRandom(timePhrases[phraseIndex]);
   return (
     <span className="font-thin">
-      {phrase} <span className="underline font-black">{targetHour}</span>
+      It's {phrase} <span className="underline font-black">{targetHour}</span>.
     </span>
   );
 }
