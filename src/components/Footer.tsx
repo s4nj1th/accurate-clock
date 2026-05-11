@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="mt-16 py-4 bg-[#1d1d1d] text-sm text-center text-[#cecece] border-t border-[#202020]">
+    <footer className="mt-16 py-4 bg-[#1d1d1d] text-sm text-center text-[#cecece] border-t border-[#202020] w-full">
       <p>
         Made with 💔 by{" "}
         <a

@@ -1,40 +1,41 @@
 import "./App.css";
 import { lines } from "./data/lines";
-import { timePhrases } from "./data/time";
+import {
+  timePhrases,
+  britishPhrases,
+  developerFormat,
+  academicPhrases,
+  existentialPhrases,
+  corporatePhrases,
+  indianParentPhrases,
+} from "./data/time";
 import Footer from "./components/Footer";
+import PreciseClock from "./components/PreciseClock";
+import CustomSelect from "./components/CustomSelect";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-function updateFavicon() {
-  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const favicon = document.getElementById("favicon") as HTMLLinkElement;
+export type Mode =
+  | "fuzzy"
+  | "precise"
+  | "british"
+  | "developer"
+  | "academic"
+  | "existential"
+  | "corporate"
+  | "indian-parent";
 
-  if (favicon) {
-    favicon.href = isDark ? "/favicon-dark.ico" : "/favicon-light.ico";
-  }
-}
+const availableModes: Mode[] = [
+  "fuzzy",
+  "precise",
+  "british",
+  "developer",
+  "academic",
+  "existential",
+  "corporate",
+  "indian-parent",
+];
 
-// Initial set
-updateFavicon();
-
-// Listen for changes
-window
-  .matchMedia("(prefers-color-scheme: dark)")
-  .addEventListener("change", updateFavicon);
-
-function App() {
-  return (
-    <>
-      <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center px-10">
-        <p className="-mt-[10vh] text-3xl md:text-4xl mb-4 animate-fade-in">
-          {getApproximateTimePhrase()}
-        </p>
-        <p className="text-xs md:text-sm animate-fade-in">{describeTime()}</p>
-      </div>
-      <Footer />
-    </>
-  );
-}
-
-function pickRandom(arr: string[]): string {
+function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -56,8 +57,19 @@ function intToText(num: number): string {
   return text[num % 12];
 }
 
-function getApproximateTimePhrase() {
+function buildApproxElement(mode: Mode) {
   const now = new Date();
+  if (mode === "developer") {
+    return <span className="font-mono">{developerFormat(now)}</span>;
+  }
+  if (mode === "british") return <span>{pickRandom(britishPhrases)}</span>;
+  if (mode === "academic") return <span>{pickRandom(academicPhrases)}</span>;
+  if (mode === "existential")
+    return <span>{pickRandom(existentialPhrases)}</span>;
+  if (mode === "corporate") return <span>{pickRandom(corporatePhrases)}</span>;
+  if (mode === "indian-parent")
+    return <span>{pickRandom(indianParentPhrases)}</span>;
+
   const hour = now.getHours();
   const minute = now.getMinutes();
 
@@ -91,8 +103,75 @@ function getApproximateTimePhrase() {
   );
 }
 
-function describeTime() {
-  return pickRandom(lines);
-}
+export default function App() {
+  // choose a random mode on every load
+  const [mode, setMode] = useState<Mode>(
+    () => pickRandom(availableModes) as Mode,
+  );
 
-export default App;
+  // witty line changes whenever mode changes
+  const [line, setLine] = useState<string>(() => pickRandom(lines));
+  useEffect(() => {
+    setLine(pickRandom(lines));
+  }, [mode]);
+
+  // controls visibility (show on pointer movement, hide after inactivity)
+  const [controlsVisible, setControlsVisible] = useState(false);
+  const hideTimerRef = useRef<number | null>(null);
+  useEffect(() => {
+    function showControls() {
+      setControlsVisible(true);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = window.setTimeout(
+        () => setControlsVisible(false),
+        1500,
+      );
+    }
+    window.addEventListener("pointermove", showControls);
+    function handlePointerLeave(e: PointerEvent) {
+      if (e.relatedTarget === null) setControlsVisible(false);
+    }
+    window.addEventListener("pointerout", handlePointerLeave);
+    return () => {
+      window.removeEventListener("pointermove", showControls);
+      window.removeEventListener("pointerout", handlePointerLeave);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
+  const approxEl = useMemo(() => buildApproxElement(mode), [mode]);
+
+  return (
+    <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center max-w-screen">
+      <div className="relative min-w-full min-h-screen max-w-3xl items-center justify-center">
+        <div
+          className={`absolute top-6 right-6 flex gap-2 transition-opacity duration-150 cursor-pointer ${controlsVisible ? "opacity-100 pointer-events-auto cursor-pointer" : "opacity-0 pointer-events-none"}`}
+        >
+          <CustomSelect
+            value={mode}
+            onChange={(v) => setMode(v as Mode)}
+            options={availableModes.map((m) => ({
+              value: m,
+              label: m.replace(/-/g, " "),
+            }))}
+            forceClose={!controlsVisible}
+            className="cursor-pointer"
+          />
+        </div>
+
+        <main className="flex flex-col h-screen justify-center">
+          {mode === "precise" ? (
+            <PreciseClock showSeconds />
+          ) : (
+            <div className="animate-fade-in">
+              <h1 className="text-3xl md:text-4xl mb-4">{approxEl}</h1>
+              <p className="text-xs md:text-sm text-gray-300">{line}</p>
+            </div>
+          )}
+        </main>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

@@ -2,29 +2,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #101010;
-  --color-text: white;
-  --font-family-base: "Atkinson Hyperlegible", sans-serif;
+    --color-background: #101010;
+    --color-text: white;
+    --font-family-base: "Atkinson Hyperlegible", sans-serif;
 }
 
 @layer base {
-  body {
-    @apply bg-[#101010] text-white;
-    font-family: "Atkinson Hyperlegible", sans-serif;
-  }
-
-  @layer utilities {
-    .animate-fade-in {
-      animation: fade-in 0.8s ease-in-out both;
+    body {
+        @apply bg-[#101010] text-white;
+        font-family: "Atkinson Hyperlegible", sans-serif;
     }
 
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
+    @layer utilities {
+        .animate-fade-in {
+            animation: fade-in 0.8s ease-in-out both;
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
     }
-  }
 }
