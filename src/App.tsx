@@ -25,8 +25,8 @@ export type Mode =
   | "indian-parent";
 
 const availableModes: Mode[] = [
-  "fuzzy",
   "precise",
+  "fuzzy",
   "british",
   "developer",
   "academic",
@@ -106,7 +106,7 @@ function buildApproxElement(mode: Mode) {
 export default function App() {
   // choose a random mode on every load
   const [mode, setMode] = useState<Mode>(
-    () => pickRandom(availableModes) as Mode,
+    () => pickRandom(availableModes.slice(1)) as Mode,
   );
 
   // witty line changes whenever mode changes
@@ -124,7 +124,7 @@ export default function App() {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       hideTimerRef.current = window.setTimeout(
         () => setControlsVisible(false),
-        1500,
+        1000,
       );
     }
     window.addEventListener("pointermove", showControls);
@@ -145,7 +145,7 @@ export default function App() {
     <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center max-w-screen">
       <div className="relative min-w-full min-h-screen max-w-3xl items-center justify-center">
         <div
-          className={`absolute top-6 right-6 flex gap-2 transition-opacity duration-150 cursor-pointer ${controlsVisible ? "opacity-100 pointer-events-auto cursor-pointer" : "opacity-0 pointer-events-none"}`}
+          className={`absolute top-6 right-6 flex gap-2 transition-opacity duration-300 cursor-pointer ${controlsVisible ? "opacity-100 pointer-events-auto cursor-pointer" : "opacity-0 pointer-events-none"}`}
         >
           <CustomSelect
             value={mode}

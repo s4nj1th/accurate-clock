@@ -23,7 +23,7 @@ export default function PreciseClock({
   };
 
   return (
-    <div className="text-4xl font-mono animate-fade-in">
+    <div className="md:text-6xl font-mono animate-fade-in text-5xl">
       {new Intl.DateTimeFormat(undefined, opts).format(now)}
     </div>
   );
