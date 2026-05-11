@@ -13,7 +13,7 @@ export default function ClockView({
   return (
     <main className="min-h-[60vh] h-screen flex flex-col items-center justify-center animate-fade-in">
       {mode === "precise" ? (
-        <PreciseClock showSeconds />
+        <PreciseClock />
       ) : (
         <div>
           <h1 className="text-3xl md:text-4xl mb-4">

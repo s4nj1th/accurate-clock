@@ -19,9 +19,20 @@ const availableModes: Mode[] = [
 ];
 
 export default function App() {
-  const [mode, setMode] = useState<Mode>(
-    () => pickRandom(availableModes.slice(1)) as Mode,
-  );
+  const getInitialMode = () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const m = params.get("m");
+      if (m && (availableModes as string[]).includes(m)) {
+        return m as Mode;
+      }
+    } catch {
+      /* ignore */
+    }
+    return pickRandom(availableModes.slice(1)) as Mode;
+  };
+
+  const [mode, setMode] = useState<Mode>(getInitialMode);
 
   const [line, setLine] = useState<string>(() => pickRandom(lines));
 
@@ -68,12 +79,23 @@ export default function App() {
   //   }
   // }
 
+  function setModeAndUpdateUrl(m: Mode) {
+    setMode(m);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set("m", m);
+      window.history.replaceState(null, "", url.toString());
+    } catch {
+      // ignore
+    }
+  }
+
   return (
     <div className="bg-[#101010] text-white min-h-screen flex flex-col text-center items-center justify-center">
       <div className="relative w-full h-screen">
         <Controls
           mode={mode}
-          setMode={setMode}
+          setMode={setModeAndUpdateUrl}
           availableModes={availableModes}
           visible={controlsVisible}
           // onRegenerate={regenerate}

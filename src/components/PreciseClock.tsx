@@ -1,34 +1,32 @@
 import { useEffect, useState } from "react";
 
-export default function PreciseClock({
-  tz,
-  showSeconds,
-}: {
-  tz?: string;
-  showSeconds?: boolean;
-}) {
+export default function PreciseClock() {
   const [now, setNow] = useState<Date>(new Date());
 
   useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), showSeconds ? 1000 : 1000);
+    const id = setInterval(() => setNow(new Date()), 500);
     return () => clearInterval(id);
-  }, [showSeconds]);
+  });
 
-  const opts: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-    ...(showSeconds ? { second: "2-digit" } : {}),
-    hour12: false,
-    timeZone: tz,
-  };
+  const hours = now.getHours().toString().padStart(2, "0");
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const seconds = now.getSeconds().toString().padStart(2, "0");
 
   return (
-    <div className="md:text-6xl font-mono text-5xl">
-      [{" "}
-      <span className="font-black">
-        {new Intl.DateTimeFormat(undefined, opts).format(now)}
-      </span>{" "}
-      ]
+    <div className="font-mono flex gap-5 justify-center items-center text-3xl md:text-5xl font-thin">
+      <span className="text-6xl md:text-8xl">[</span>
+      <span className="text-5xl md:text-7xl font-black leading-none">
+        {hours}
+      </span>
+      :
+      <span className="text-5xl md:text-7xl font-black leading-none">
+        {minutes}
+      </span>
+      :
+      <span className="text-5xl md:text-7xl font-black leading-none">
+        {seconds}
+      </span>
+      <span className="text-6xl md:text-8xl">]</span>
     </div>
   );
 }
