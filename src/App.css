@@ -13,6 +13,10 @@
         font-family: "Atkinson Hyperlegible", sans-serif;
     }
 
+    ::selection {
+        @apply bg-[#fff] text-[#101010];
+    }
+
     @layer utilities {
         .animate-fade-in {
             animation: fade-in 0.8s ease-in-out both;

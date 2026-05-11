@@ -88,10 +88,10 @@ export default function CustomSelect({
   return (
     <div
       ref={rootRef}
-      className={`relative cursor-pointer inline-block min-w-[180px] ${className || ""}`}
+      className={`relative inline-block min-w-[140px] ${className || ""}`}
     >
       <button
-        className={`bg-[#111] text-white border border-[#222] px-3 py-2 rounded-md inline-flex items-center cursor-pointer justify-between w-full`}
+        className={`bg-[#111] text-white border border-[#222] px-3 py-2 rounded-md inline-flex items-center justify-between w-full cursor-pointer`}
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={toggle}
@@ -108,7 +108,7 @@ export default function CustomSelect({
         ref={listRef}
         role="listbox"
         aria-activedescendant={highlight >= 0 ? `opt-${highlight}` : undefined}
-        className={`w-full absolute right-0 top-[calc(100%+6px)] bg-[#121212] text-white border border-[#222] rounded-lg shadow-lg p-1 mt-2 list-none max-h-64 overflow-auto z-50 ${open ? "block" : "hidden"}`}
+        className={`cursor-pointer absolute right-0 top-[calc(100%+6px)] bg-[#121212] text-white border border-[#222] rounded-lg shadow-lg p-1 mt-2 list-none max-h-64 overflow-auto z-50 ${open ? "block" : "hidden"}`}
         tabIndex={-1}
       >
         {options.map((opt, i) => (

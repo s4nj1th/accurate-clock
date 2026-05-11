@@ -1,13 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link id="favicon" rel="icon" href="/favicon-light.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Accurate Clock</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link
+            rel="icon"
+            href="/favicon-light.ico"
+            media="(prefers-color-scheme: light)"
+        />
+        <link
+            rel="icon"
+            href="/favicon-dark.ico"
+            media="(prefers-color-scheme: dark)"
+        />
+        <link id="favicon" rel="icon" href="/favicon-light.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Accurate Clock</title>
+
+        <script>
+            (function () {
+                try {
+                    var link = document.getElementById("favicon");
+                    if (!link) {
+                        link = document.createElement("link");
+                        link.id = "favicon";
+                        link.rel = "icon";
+                        document.head.appendChild(link);
+                    }
+
+                    function updateFavicon() {
+                        var isDark =
+                            window.matchMedia &&
+                            window.matchMedia("(prefers-color-scheme: dark)")
+                                .matches;
+                        link.href = isDark
+                            ? "/favicon-dark.ico"
+                            : "/favicon-light.ico";
+                    }
+
+                    if (window.matchMedia) {
+                        var mq = window.matchMedia(
+                            "(prefers-color-scheme: dark)",
+                        );
+                        if (typeof mq.addEventListener === "function") {
+                            mq.addEventListener("change", updateFavicon);
+                        } else if (typeof mq.addListener === "function") {
+                            mq.addListener(updateFavicon);
+                        }
+                    }
+
+                    updateFavicon();
+                } catch (e) {
+                    console.warn("Favicon theming failed", e);
+                }
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>
