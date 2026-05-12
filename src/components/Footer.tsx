@@ -25,7 +25,6 @@ export default function Footer() {
           <SiGithub />
           <span>Source</span>
         </a>
-        ·<span>{new Date().getFullYear()} &copy; MIT</span>
       </p>
     </footer>
   );
