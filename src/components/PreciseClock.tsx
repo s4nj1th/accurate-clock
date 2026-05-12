@@ -13,20 +13,26 @@ export default function PreciseClock() {
   const seconds = now.getSeconds().toString().padStart(2, "0");
 
   return (
-    <div className="font-mono flex gap-5 justify-center items-center text-3xl md:text-5xl font-thin">
-      <span className="text-6xl md:text-8xl">[</span>
-      <span className="text-5xl md:text-7xl font-black leading-none">
-        {hours}
-      </span>
-      :
-      <span className="text-5xl md:text-7xl font-black leading-none">
-        {minutes}
-      </span>
-      :
-      <span className="text-5xl md:text-7xl font-black leading-none">
-        {seconds}
-      </span>
-      <span className="text-6xl md:text-8xl">]</span>
-    </div>
+    <>
+      <img
+        src="/favicon-dark.ico"
+        className="opacity-10 absolute scale-200 animate-rotate-acw"
+      />
+      <div className="font-mono flex gap-5 justify-center items-center text-3xl md:text-5xl font-thin">
+        <span className="text-6xl md:text-8xl">[</span>
+        <span className="text-5xl md:text-7xl font-black leading-none">
+          {hours}
+        </span>
+        :
+        <span className="text-5xl md:text-7xl font-black leading-none">
+          {minutes}
+        </span>
+        :
+        <span className="text-5xl md:text-7xl font-black leading-none">
+          {seconds}
+        </span>
+        <span className="text-6xl md:text-8xl">]</span>
+      </div>
+    </>
   );
 }
