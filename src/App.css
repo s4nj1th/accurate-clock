@@ -47,7 +47,7 @@
         }
 
         .animate-rotate-acw {
-            animation: rotate-acw 36s linear infinite;
+            animation: rotate-acw 60s linear infinite;
             transform-origin: center center;
             will-change: transform;
         }
